@@ -29,6 +29,7 @@ The **Travel app** is a web application that helps users plan their trips to dif
      ```
    - Create a `.env` file at the root of the project and add your API keys like so:
      ```env
+     PORT=port-num
      GEONAMES_USERNAME=your_geonames_username
      WEATHER_API_KEY=your_weather_api_key
      PIXABAY_API_KEY=your_pixabay_api_key
