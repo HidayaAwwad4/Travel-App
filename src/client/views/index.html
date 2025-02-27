@@ -9,76 +9,77 @@
     </head>
     <body>
     </body>
-        <header>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html"><img src="./images/histaTravel.png" alt="logo" width="90px"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item me-4"> 
-                                <a class="nav-link active fs-6" aria-current="page" href="index.html">Home</a>
-                            </li>
-                            <li class="nav-item me-4"> 
-                                <a class="nav-link fs-6" href="#trip-plan">Plan Your Trip</a>
-                            </li>
-                            <li class="nav-item me-4"> 
-                                <a class="nav-link fs-6" href="#trip-info">Trips Information</a>
-                            </li>
-                        </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html"><img src="./images/histaTravel.png" alt="logo" width="90px"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-4"> 
+                            <a class="nav-link active fs-6" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item me-4"> 
+                            <a class="nav-link fs-6" href="#trip-plan">Plan Your Trip</a>
+                        </li>
+                        <li class="nav-item me-4"> 
+                            <a class="nav-link fs-6" href="#trip-info">Trips Information</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <section class="hero-section">
+            <div class="overlay"></div>
+            <div class="hero-text">
+                Plan Your Trip with Ease… <br> 
+                Your Next Adventure Starts Here with <span style="color: #FFD700;">HISTA!</span>
+            </div>
+        </section>
+    </header>
+
+    <section class="sec-trip-plan" id="trip-plan">
+        <div class="container-fluid my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 bg-light p-4 rounded shadow">
+                    <h2 class="text-center mb-4">Plan Your Trip</h2>
+                    <div class="mb-3">
+                        <label for="destinationCity" class="form-label">Destination City</label>
+                        <input type="text" class="form-control" id="destinationCity" placeholder="example: Nablus">
                     </div>
-                </div>
-            </nav>
-            <section class="hero-section">
-                <div class="overlay"></div>
-                <div class="hero-text">
-                    Plan Your Trip with Ease… <br> 
-                    Your Next Adventure Starts Here with <span style="color: #FFD700;">HISTA!</span>
-                </div>
-            </section>
-
-
-        </header>
-
-
-
-        
-        <section class="sec-trip-plan" id="trip-plan">
-            <div class="container-fluid my-5">
-                <div class="row justify-content-center">
-                    <div class="col-12 bg-light p-4 rounded shadow">
-                        <h2 class="text-center mb-4">Plan Your Trip</h2>
-                        <div class="mb-3">
-                            <label for="destinationCity" class="form-label">Destination City</label>
-                            <input type="text" class="form-control" id="destinationCity" placeholder="example: Nablus">
-                        </div>
-                        <div class="mb-3">
-                            <label for="travelDate" class="form-label">Travel Date</label>
-                            <input type="date" class="form-control" id="travelDate">
-                        </div>
-                        <div>
-                            <button type="button" class="w-100 btn" id="searchButton" style="margin-top: 25px;">Search</button>
-                        </div>
+                    <div class="mb-3">
+                        <label for="travelStartDate" class="form-label">Travel Start Date</label>
+                        <input type="date" class="form-control" id="travelStartDate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="travelEndDate" class="form-label">Travel End Date</label>
+                        <input type="date" class="form-control" id="travelEndDate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="hotelInfo" class="form-label">Hotel Information</label>
+                        <input type="text" class="form-control" id="hotelInfo" placeholder="example: Hotel Name">
+                    </div>
+                    <div>
+                        <button type="button" class="w-100 btn" id="searchButton" style="margin-top: 25px;">Search</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="sec-trip-info" id="trip-info">
-            <div class="container-fluid my-5">
-                <div class="row justify-content-center">
-                    <div class="col-12 bg-light p-4 rounded shadow">
-                        <h2 class="text-center mb-4">Your Trip Information</h2>
-                        <div id="tripInfo" class="trip-info">
-
-                        </div>
-                        <button type="button" class="w-100 btn btn-danger" id="deleteAllButton" style="margin-top: 25px;">Delete All Trips</button>
-                    </div>
+    <section class="sec-trip-info" id="trip-info">
+        <div class="container-fluid my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 bg-light p-4 rounded shadow">
+                    <h2 class="text-center mb-4">Your Trip Information</h2>
+                    <div id="tripInfo" class="trip-info"></div>
+                    <button type="button" class="w-100 btn btn-danger" id="deleteAllButton" style="margin-top: 25px;">Delete All Trips</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
         
     </body>
 </html>

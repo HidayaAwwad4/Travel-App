@@ -3,20 +3,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteAllButton = document.getElementById("deleteAllButton");
   
   searchButton.addEventListener("click", handleSearch);
-
   deleteAllButton.addEventListener("click", handleDeleteAll);
-
   loadSavedData();
 });
 
 async function handleSearch() {
   const cityInput = document.getElementById("destinationCity");
-  const dateInput = document.getElementById("travelDate");
-  const city = cityInput.value.trim();
-  const date = dateInput.value;
+  const startDateInput = document.getElementById("travelStartDate");
+  const endDateInput = document.getElementById("travelEndDate");
+  const hotelInput = document.getElementById("hotelInfo");
 
-  if (!city || !date) {
-      alert("Please enter both city and travel date.");
+  const city = cityInput.value.trim();
+  const startDate = startDateInput.value;
+  const endDate = endDateInput.value;
+  const hotel = hotelInput.value.trim();
+
+  if (!city || !startDate || !endDate || !hotel) {
+      alert("Please enter city, start date, end date, and hotel information.");
       return;
   }
 
@@ -39,36 +42,51 @@ async function handleSearch() {
       const tripInfo = {
           city: locData.city,
           country,
-          date,
+          startDate,
+          endDate,
+          duration: calculateDuration(startDate, endDate),
+          hotel,
           weather: weatherDesc,
           image: imageUrl,
       };
 
       updateUI(tripInfo);
-
       saveTripInfo(tripInfo);
 
       cityInput.value = "";
-      dateInput.value = "";
+      startDateInput.value = "";
+      endDateInput.value = "";
+      hotelInput.value = "";
 
   } catch (err) {
       console.error(err);
       alert("Error occurred while fetching data.");
   }
 }
+
+function calculateDuration(start, end) {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const timeDiff = endDate - startDate;
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+  return daysDiff + 1; // Include the start day
+}
+
 function updateUI(trip) {
   const tripInfoContainer = document.getElementById("tripInfo");
 
   const tripElement = document.createElement("div");
   tripElement.classList.add("trip-component", "mb-4", "p-3", "bg-light", "rounded", "shadow");
   tripElement.setAttribute("data-city", trip.city); 
-  tripElement.setAttribute("data-date", trip.date); 
+  tripElement.setAttribute("data-start-date", trip.startDate); 
+  tripElement.setAttribute("data-end-date", trip.endDate); 
 
   tripElement.innerHTML = `
-      <h4 class="city-name">My trip to ${trip.city}, ${trip.country} on ${trip.date}</h4>
+      <h4 class="city-name">My trip to ${trip.city}, ${trip.country} from ${trip.startDate} to ${trip.endDate} (${trip.duration} days)</h4>
       <img class="city-image img-fluid rounded shadow mb-3" src="${trip.image}" alt="City Image"/>
       <div class="weather-info">
           <p class="temperature">Weather condition: ${trip.weather}</p>
+          <p class="hotel-info">Hotel: ${trip.hotel}</p>
       </div>
       <button class="delete-button btn btn-danger">Delete</button>
   `;
@@ -80,7 +98,6 @@ function updateUI(trip) {
       deleteTrip(deleteButton);
   });
 }
-
 
 function saveTripInfo(tripInfo) {
   let savedTrips = JSON.parse(localStorage.getItem("trips")) || [];
@@ -98,13 +115,14 @@ function loadSavedData() {
 function deleteTrip(button) {
   const tripElement = button.closest('.trip-component'); 
   const city = tripElement.getAttribute("data-city");
-  const date = tripElement.getAttribute("data-date");
+  const startDate = tripElement.getAttribute("data-start-date");
+  const endDate = tripElement.getAttribute("data-end-date");
 
   tripElement.remove();
 
   let savedTrips = JSON.parse(localStorage.getItem("trips")) || [];
   savedTrips = savedTrips.filter(trip => {
-      return !(trip.city === city && trip.date === date);
+      return !(trip.city === city && trip.startDate === startDate && trip.endDate === endDate);
   });
   localStorage.setItem("trips", JSON.stringify(savedTrips));
 }
