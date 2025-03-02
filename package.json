@@ -10,6 +10,9 @@
     "test": "jest",
     "dev": "nodemon src/server/server.js"
   },
+  "engines": {
+    "node": ">=20.12.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

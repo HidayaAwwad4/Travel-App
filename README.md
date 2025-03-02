@@ -22,11 +22,13 @@ The **Travel app** is a web application that helps users plan their trips to dif
 
 #### 1. **Setup the Local Environment**
    - Ensure that [Node.js](https://nodejs.org/) is installed on your machine.
+    - Recommended Node.js version: **v20.12.2**
    - Clone the project:
      ```bash
      git clone https://github.com/HidayaAwwad4/Travel-App.git
      cd travel-app
      ```
+
    - Create a `.env` file at the root of the project and add your API keys like so:
      ```env
      PORT=port-num
