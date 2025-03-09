@@ -1,9 +1,10 @@
 'use strict';
 
 import path from 'path';
+import webpack from'webpack';
 import autoprefixer from 'autoprefixer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import WorkboxPlugin from 'workbox-webpack-plugin';
 
 export default {
     mode: 'development',
@@ -20,8 +21,14 @@ export default {
         liveReload: true 
     },
     plugins: [
-        //new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({ template: './src/client/views/index.html' })
+        new HtmlWebpackPlugin({ template: './src/client/views/index.html' }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+        })
     ],
     module: {
         rules: [
@@ -57,4 +64,6 @@ export default {
             }
         ]
     }
+
+
 };
