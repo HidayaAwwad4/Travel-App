@@ -1,7 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchButton = document.getElementById("searchButton");
   const deleteAllButton = document.getElementById("deleteAllButton");
-  
+  const startDateInput = document.getElementById("travelStartDate");
+  const endDateInput = document.getElementById("travelEndDate");
+
+  const today = new Date().toISOString().split("T")[0];
+  startDateInput.setAttribute("min", today);
+  endDateInput.setAttribute("min", today);
+
+  startDateInput.addEventListener("change", () => {
+      endDateInput.setAttribute("min", startDateInput.value);
+  });
+
   searchButton.addEventListener("click", handleSearch);
   deleteAllButton.addEventListener("click", handleDeleteAll);
   loadSavedData();
@@ -22,6 +32,21 @@ async function handleSearch() {
       alert("Please enter city, start date, end date, and hotel information.");
       return;
   }
+
+  const currentDate = new Date().setHours(0, 0, 0, 0); 
+  const start = new Date(startDate).setHours(0, 0, 0, 0);
+  const end = new Date(endDate).setHours(0, 0, 0, 0);
+
+  if (start < currentDate) {
+      alert("Start date cannot be in the past. Please select a valid date.");
+      return;
+  }
+
+  if (end < start) {
+      alert("End date cannot be before the start date.");
+      return;
+  }
+
 
   try {
       const locRes = await fetch(`/api/location?city=${city}`);
@@ -68,8 +93,7 @@ function calculateDuration(start, end) {
   const startDate = new Date(start);
   const endDate = new Date(end);
   const timeDiff = endDate - startDate;
-  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
-  return daysDiff + 1; // Include the start day
+  return Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 }
 
 function updateUI(trip) {
@@ -77,17 +101,15 @@ function updateUI(trip) {
 
   const tripElement = document.createElement("div");
   tripElement.classList.add("trip-component", "mb-4", "p-3", "bg-light", "rounded", "shadow");
-  tripElement.setAttribute("data-city", trip.city); 
-  tripElement.setAttribute("data-start-date", trip.startDate); 
-  tripElement.setAttribute("data-end-date", trip.endDate); 
+  tripElement.setAttribute("data-city", trip.city);
+  tripElement.setAttribute("data-start-date", trip.startDate);
+  tripElement.setAttribute("data-end-date", trip.endDate);
 
   tripElement.innerHTML = `
-      <h4 class="city-name">My trip to ${trip.city}, ${trip.country} from ${trip.startDate} to ${trip.endDate} (${trip.duration} days)</h4>
-      <img class="city-image img-fluid rounded shadow mb-3" src="${trip.image}" alt="City Image"/>
-      <div class="weather-info">
-          <p class="temperature">Weather condition: ${trip.weather}</p>
-          <p class="hotel-info">Hotel: ${trip.hotel}</p>
-      </div>
+      <h4>My trip to ${trip.city}, ${trip.country} from ${trip.startDate} to ${trip.endDate} (${trip.duration} days)</h4>
+      <img class="img-fluid rounded shadow mb-3" src="${trip.image}" alt="City Image"/>
+      <p>Weather: ${trip.weather}</p>
+      <p>Hotel: ${trip.hotel}</p>
       <button class="delete-button btn btn-danger">Delete</button>
   `;
 
@@ -131,7 +153,6 @@ function handleDeleteAll() {
   localStorage.removeItem("trips");
   document.getElementById("tripInfo").innerHTML = "";
 }
-
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
